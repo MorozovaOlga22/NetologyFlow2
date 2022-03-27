@@ -26,4 +26,7 @@ interface PostDao {
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
     suspend fun removeById(id: Long)
+
+    @Query("UPDATE PostEntity SET hidden = 0")
+    suspend fun showAllPosts()
 }

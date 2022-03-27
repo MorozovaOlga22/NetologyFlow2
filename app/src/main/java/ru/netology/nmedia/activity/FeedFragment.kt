@@ -68,8 +68,23 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         }
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            // TODO: just log it, interaction must be in homework
+            if (state ?: 0 > 0) {
+                binding.newPostsButton.show()
+            }
             println(state)
+        }
+
+        binding.newPostsButton.visibility =
+            if (viewModel.data.value?.posts?.any { post -> post.hidden } == true) View.VISIBLE else View.GONE
+
+        binding.newPostsButton.setOnClickListener {
+            viewModel.showAllPosts()
+            binding.newPostsButton.hide()
+        }
+
+        viewModel.postShown.observe(viewLifecycleOwner) {
+            val layoutManager = binding.list.layoutManager
+            layoutManager?.scrollToPosition(0)
         }
 
         binding.swiperefresh.setOnRefreshListener {
