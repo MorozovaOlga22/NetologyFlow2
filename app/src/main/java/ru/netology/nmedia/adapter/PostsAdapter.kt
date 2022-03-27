@@ -1,6 +1,7 @@
 package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -40,6 +41,8 @@ class PostViewHolder(
 
     fun bind(post: Post) {
         binding.apply {
+            if (post.hidden) postCard.visibility = View.GONE else postCard.visibility = View.VISIBLE
+
             author.text = post.author
             published.text = post.published
             content.text = post.content

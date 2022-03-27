@@ -46,7 +46,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(body.toEntity())
+            dao.insert(body.toEntity().map { postEntity -> postEntity.copy(hidden = true) })
             emit(body.size)
         }
     }
@@ -75,5 +75,9 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
 
     override suspend fun likeById(id: Long) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun showAllPosts() {
+        dao.showAllPosts()
     }
 }
